@@ -10,6 +10,3 @@ class Mapping(TemplateView):
     model = Mapping
     template_name = 'mappingTool/main/index.html'
 
-def index(request):
-
-    return render(request, 'mappingTool/main/index.html')
