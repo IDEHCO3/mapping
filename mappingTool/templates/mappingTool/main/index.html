@@ -23,7 +23,8 @@
         <!-- leaflet CSS -->
         <link rel="stylesheet" type="text/css" href="{% static 'leaflet/leaflet.css' %}" />
         <link rel="stylesheet" type="text/css" href="{% static 'leaflet/draw/leaflet.draw.css' %}"/>
-
+        <link rel="stylesheet" href="{% static 'leaflet/contextmenu/leaflet.contextmenu.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'leaflet/styledLayerControl/css/styledLayerControl.css' %}" />
         <title>{% trans 'Mapping' %}</title>
 
     </head>
@@ -33,22 +34,11 @@
                 {% include 'mappingTool/main/head.html' %}
                 {% include 'mappingTool/main/sidebar.html' %}
             </nav>
-            <script src="{% static 'leaflet/leaflet.js' %} "></script>
-            <script src="{% static 'leaflet/draw/leaflet.draw.js' %}"> </script>
             {% include 'mappingTool/main/body.html' %}
             {% include 'mappingTool/main/footer.html' %}
         </div>
 
-        <script src="{% static 'jquery-2.1.4/jquery.min.js' %}"></script>
 
-        <script src="{% static 'bootstrap-3.3.5/js/bootstrap.min.js' %}"></script>
-
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="{% static 'startbootstrap/bower_components/metisMenu/dist/metisMenu.min.js' %}"></script>
-
-        <!-- Custom Theme JavaScript -->
-        <script src="{% static 'startbootstrap/dist/js/sb-admin-2.js' %}"></script>
-        <!-- leaflet JavaScript -->
 
     </body>
 </html>
