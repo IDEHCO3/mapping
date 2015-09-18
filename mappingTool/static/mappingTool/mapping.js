@@ -1,20 +1,17 @@
 /**
  * Created by Rogério on 13/09/2015.
  */
-/** initialization map and variables **/
-var map = L.map('map', initializeContextMenuMap()).setView([-21.2858, -41.78682], 2);
+// initialise map
+var map = L.map('map',initializeContextMenuMap()).setView([-22, -41], 2);
+mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+osmAdress =  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+opts = {attribution: 'Map data &copy; ' + mapLink, maxZoom: 18 };
+L.tileLayer( osmAdress, opts ).addTo(map);
+
 var geoJsonLayers = [];
-var actuallayer;
-function initMapping() {
-    mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-    osmAdress = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    opts = {attribution: 'Map data &copy; ' + mapLink, maxZoom: 18};
-    L.tileLayer(osmAdress, opts).addTo(map);
-}
+var actualLayer = null;
 
-
-
-var geojsonFeature =[
+var geojsonFeature = [
     {
         "type": "Feature",
         "properties": {
@@ -26,16 +23,21 @@ var geojsonFeature =[
             "type": "Point",
             "coordinates": [-104.99404, 39.75621]
         }
+
     },
     {
-    "type": "LineString",
-    "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+        "type": "LineString",
+        "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
     },
     {
-    "type": "LineString",
-    "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+        "type": "LineString",
+        "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
     }
 ];
+
+// Initialise the draw control and pass it the FeatureGroup of editable layers
+var drawControl = null;
+
 function initializeContextMenuMap() {
     return {
         zoom: 15,
@@ -60,6 +62,7 @@ function initializeContextMenuMap() {
 function showCoordinates (e) {
     console.log(e.latlng);
 }
+
 function centerMap (e) {
     map.panTo(e.latlng);
 }
@@ -71,39 +74,71 @@ function zoomIn (e) {
 function zoomOut (e) {
     map.zoomOut();
 }
+// end mapping initialize
 
-/** end initialization map and variables **/
-
+// begins - functions to initialize load Layer(GeoJson)
 function loadGeoJson() {
-    var aGeoJsonLayer = L.geoJson(geojsonFeature, {
+
+    var createdGeoJsonLayer = L.geoJson(geojsonFeature, {
        onEachFeature: onEachFeature
+
     }).addTo(map);
-    geoJsonLayers.push(aGeoJsonLayer);
 
+    geoJsonLayers.push(createdGeoJsonLayer);
+    if(drawControl == null) drawControl = new L.Control.Draw(options(createdGeoJsonLayer));
+        map.addControl(drawControl);
 }
+
+// called when a layers is load or created
 function onEachFeature(feature, layer) {
+    //
     layer.on('click', function() { clickOnLayer(feature, layer)});
-
-}
-
-function clickOnLayer(feature, layer ){
-    console.log(feature.type == 'Feature');
-    actuallayer = layer;
     binderMenuContextTo(layer);
-
 }
 
+// called when a layer is clicked on the map
+function clickOnLayer(feature, layer ){
+    actuallayer = layer;
+     console.log(actuallayer)
+}
+
+// called on onEachFeature to associate a context menu to a layer
 function binderMenuContextTo(layer) {
     layer.bindContextMenu({
         contextmenu: true,
         contextmenuInheritItems: true,
         contextmenuItems: [
              {
+                separator: true
+            },
+            {
                 text: 'Edit attributes',
                 callback: function () { editingAttributes(layer);  }
-            }, {
-                separator: true
             }]
     });
-
 }
+function editingAttributes(layer){
+    //populateModalWithFeature(layer);
+    //$('#myModal').modal('show');
+}
+// ends - functions to initialize  load Layer(GeoJson)
+
+// begins - draw functions
+
+function options(editableLayer) {
+
+        return {
+            position: 'topleft',
+            draw: {
+
+                  rectangle: false,
+                  circle: false
+
+            },
+            edit: {
+                    featureGroup: editableLayer, //REQUIRED!!
+                    remove: true
+            }
+       };
+}
+
