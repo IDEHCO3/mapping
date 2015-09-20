@@ -10,7 +10,7 @@ L.tileLayer( osmAdress, opts ).addTo(map);
 
 var geoJsonLayers = [];
 var actualLayer = null;
-
+var geojsons = []
 var geojsonFeature = [
     {
         "type": "Feature",
@@ -23,8 +23,10 @@ var geojsonFeature = [
             "type": "Point",
             "coordinates": [-104.99404, 39.75621]
         }
-
-    },
+    }
+];
+geojsons.push(geojsonFeature);
+var geojsonFeature1 = [
     {
         "type": "LineString",
         "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
@@ -34,7 +36,7 @@ var geojsonFeature = [
         "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
     }
 ];
-
+geojsons.push(geojsonFeature1);
 // Initialise the draw control and pass it the FeatureGroup of editable layers
 var drawControl = null;
 
@@ -77,16 +79,21 @@ function zoomOut (e) {
 // end mapping initialize
 
 // begins - functions to initialize load Layer(GeoJson)
-function loadGeoJson() {
+function loadGeoJson(aGeoJson) {
 
-    var createdGeoJsonLayer = L.geoJson(geojsonFeature, {
-       onEachFeature: onEachFeature
+        var createdGeoJsonLayer = L.geoJson(aGeoJson, {
+            onEachFeature: onEachFeature
 
-    }).addTo(map);
+        }).addTo(map);
 
-    geoJsonLayers.push(createdGeoJsonLayer);
-    if(drawControl == null) drawControl = new L.Control.Draw(options(createdGeoJsonLayer));
-        map.addControl(drawControl);
+        geoJsonLayers.push(createdGeoJsonLayer);
+
+        if (drawControl != null)
+           map.removeControl(drawControl);
+
+           drawControl = new L.Control.Draw(options(createdGeoJsonLayer));
+           map.addControl(drawControl);
+
 }
 
 // called when a layers is load or created
@@ -142,3 +149,17 @@ function options(editableLayer) {
        };
 }
 
+function loadURLRest() {
+
+    var url_string = $("#loadLayerRest").val();
+    $.ajax({ method: "GET",
+             url: url_string
+    }).done(function(data){
+
+        loadGeoJson(data);
+
+    }).fail(function(data){
+
+    });
+
+}
