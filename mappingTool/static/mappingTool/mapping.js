@@ -149,17 +149,38 @@ function options(editableLayer) {
        };
 }
 
-function loadURLRest() {
+function buttonLoadLayerClicked() {
 
     var url_string = $("#loadLayerRest").val();
     $.ajax({ method: "GET",
              url: url_string
     }).done(function(data){
 
-        loadGeoJson(data);
+       // loadGeoJson(data);
+        appendLayerListSidebar(data);
+       // $("#layerList").listview('refresh');
 
     }).fail(function(data){
 
     });
 
+}
+function appendLayerListSidebar(a_data) {
+
+    var htmlLi = '<li>' +
+    '<a href="#" >' +
+    '<input id="radio" type="radio" onchange="radioChanged() " />' +
+    '<label><input id="editable" type="checkbox" onchange="checkboxChanged()" />' + 'x1'+  '</label>' +
+    '</a>' +
+    '</li>'    ;
+
+    $("#layerList").append(htmlLi);
+
+}
+
+function radioChanged() {
+    alert('radio');
+}
+function checkboxChanged() {
+    alert('checkboxChanged');
 }
