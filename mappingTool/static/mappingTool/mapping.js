@@ -7,10 +7,13 @@ mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
 osmAdress =  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 opts = {attribution: 'Map data &copy; ' + mapLink, maxZoom: 18 };
 L.tileLayer( osmAdress, opts ).addTo(map);
-
+var dicUrlLayer = {"url": "", "layer": ""};
+var arrOfDicUrlLayer = [];
 var geoJsonLayers = [];
 var actualLayer = null;
 var geojsons = []
+
+// INICIO DADOS PARA TESTES
 var geojsonFeature = [
     {
         "type": "Feature",
@@ -37,6 +40,8 @@ var geojsonFeature1 = [
     }
 ];
 geojsons.push(geojsonFeature1);
+// FIM DADOS PARA TESTES
+
 // Initialise the draw control and pass it the FeatureGroup of editable layers
 var drawControl = null;
 
@@ -81,52 +86,89 @@ function zoomOut (e) {
 // begins - functions to initialize load Layer(GeoJson)
 function loadGeoJson(aGeoJson) {
 
-        var createdGeoJsonLayer = L.geoJson(aGeoJson, {
-            onEachFeature: onEachFeature
+        var geoJsonLayer = L.geoJson(aGeoJson, {onEachFeature: onEachFeature});
 
-        }).addTo(map);
+        map.addLayer(geoJsonLayer);
 
-        geoJsonLayers.push(createdGeoJsonLayer);
+        geoJsonLayers.push(geoJsonLayer);
 
         if (drawControl != null)
            map.removeControl(drawControl);
 
-           drawControl = new L.Control.Draw(options(createdGeoJsonLayer));
+           drawControl = new L.Control.Draw(options(geoJsonLayer));
            map.addControl(drawControl);
 
 }
 
-// called when a layers is load or created
+
 function onEachFeature(feature, layer) {
-    //
-    layer.on('click', function() { clickOnLayer(feature, layer)});
+
+    if (layer._layers)
+        return onEachFeatureWithMultiGeometry(feature, layer);
+
+    return onEachFeatureWithSingleGeommetry(feature, layer);
+
+
+
+}
+function onEachFeatureWithMultiGeometry(feature, layer){
+
+        layer.eachLayer(function (l) {
+            l.on('click', function() { clickOnLayer(feature, layer); });
+            l.on('contextmenu', function (){clickOnLayer(feature, layer);})
+            l.bindContextMenu({
+                contextmenu: true,
+                contextmenuItems: contextMenuItemsTo()
+            });
+        });
+
+}
+
+function onEachFeatureWithSingleGeommetry(feature, layer)
+{
+
+    layer.on('click', function() { clickOnLayer(feature, layer); });
     binderMenuContextTo(layer);
+}
+// called when a layers is load or created
+
+function binderMenuContextTo(layer) {
+    layer.bindContextMenu({
+        contextmenu: true,
+        contextmenuInheritItems: true,
+        contextmenuItems: contextMenuItemsTo()
+    });
+}
+
+function contextMenuItemsTo(){
+    return [
+        {
+            separator: true
+        },
+        {
+            text: 'Marker ',
+            callback: function (e) { alert('Marker: ' + e);      }
+        }, {
+            text: 'Edit attributes',
+            callback: function (e) { editingAttributes(e);  }
+        }, {
+            separator: true
+        }
+    ];
 }
 
 // called when a layer is clicked on the map
 function clickOnLayer(feature, layer ){
     actuallayer = layer;
-     console.log(actuallayer)
+
 }
 
 // called on onEachFeature to associate a context menu to a layer
-function binderMenuContextTo(layer) {
-    layer.bindContextMenu({
-        contextmenu: true,
-        contextmenuInheritItems: true,
-        contextmenuItems: [
-             {
-                separator: true
-            },
-            {
-                text: 'Edit attributes',
-                callback: function () { editingAttributes(layer);  }
-            }]
-    });
-}
+
 function editingAttributes(layer){
     //populateModalWithFeature(layer);
     //$('#myModal').modal('show');
+
 }
 // ends - functions to initialize  load Layer(GeoJson)
 
@@ -149,28 +191,35 @@ function options(editableLayer) {
        };
 }
 
+
 function buttonLoadLayerClicked() {
 
-    var url_string = $("#loadLayerRest").val();
-    $.ajax({ method: "GET",
-             url: url_string
+    url_json = $("#loadLayerRest").val();
+
+   $.getJSON( url_json, function(geoJsons) {
+       aLayer = loadGeoJson(geoJsons);
+       appendLayerListSidebar(url_json);
+
+
     }).done(function(data){
 
-       // loadGeoJson(data);
-        appendLayerListSidebar(data);
-       // $("#layerList").listview('refresh');
+       dic =  dicUrlLayer;
+       dic.url = url_json;
+       dic.layer = data;
+       arrOfDicUrlLayer.push(dic);
 
     }).fail(function(data){
-
+        console.log("Fail to load geojson");
     });
 
 }
-function appendLayerListSidebar(a_data) {
 
+function appendLayerListSidebar(url) {
+    console.log(url);
     var htmlLi = '<li>' +
     '<a href="#" >' +
-    '<input id="radio" type="radio" onchange="radioChanged() " />' +
-    '<label><input id="editable" type="checkbox" onchange="checkboxChanged()" />' + 'x1'+  '</label>' +
+    '<input id="radio"  class="word-wrap: break-word" type="radio" onchange="radioChanged() " />' +
+    '<label><input id="editable" type="checkbox" onchange="checkboxChanged()" />' + url+  '</label>' +
     '</a>' +
     '</li>'    ;
 
@@ -184,3 +233,4 @@ function radioChanged() {
 function checkboxChanged() {
     alert('checkboxChanged');
 }
+

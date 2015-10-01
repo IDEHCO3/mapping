@@ -253,7 +253,7 @@ function binderMenuContextTo(layer) {
                 callback: function () { editingAttributes(layer);  }
             }, {
                 separator: true
-            }]
+        }]
     });
 
 }
