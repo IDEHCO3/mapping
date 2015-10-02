@@ -215,22 +215,32 @@ function buttonLoadLayerClicked() {
 }
 
 function appendLayerListSidebar(url) {
-    console.log(url);
+    var d = new Date();
+    var n = d.getTime();
+    var index = url.lastIndexOf("\\") - 1;
+    var a_layer_name = url.substr(index);
+    var id = a_layer_name + n.toString();
+
     var htmlLi = '<li>' +
     '<a href="#" >' +
-    '<input id="radio"  class="word-wrap: break-word" type="radio" onchange="radioChanged() " />' +
-    '<label><input id="editable" type="checkbox" onchange="checkboxChanged()" />' + url+  '</label>' +
+    '<input id="radio_sidebar" name="radio_sidebar" value="" checked="checked"' + 'class="word-wrap: break-word" type="radio" onchange="sideBarRadioChanged()" />' +
+    '<label><input id='+ '"'+ id + '"'  + 'type="checkbox" checked="checked" onchange="sideBarCheckboxChanged()" />' + a_layer_name+  '</label>' +
     '</a>' +
     '</li>'    ;
 
     $("#layerList").append(htmlLi);
 
+    //document.getElementById(id).checked = true;
+
+
+
+
 }
 
-function radioChanged() {
+function sideBarRadioChanged(e) {
     alert('radio');
 }
-function checkboxChanged() {
+function sideBarCheckboxChanged(e) {
     alert('checkboxChanged');
 }
 

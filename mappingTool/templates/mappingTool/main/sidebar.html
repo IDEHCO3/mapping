@@ -7,7 +7,7 @@
                     <input id="loadLayerRest" type="text" class="form-control" placeholder="Load layer(url)"/>
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button" onclick="buttonLoadLayerClicked()">
-                            GO!
+                            +
                         </button>
                     </span>
                 </div>
@@ -15,7 +15,7 @@
             </li>
             <li>
                 <a href="#">
-                    <span class="glyphicon glyphicon-plus"></span> {% trans 'Layers' %}
+                    <span class="glyphicon glyphicon-list-alt"></span> {% trans 'Layers' %}
                 </a>
             </li>
             <ul id= "layerList" class="nav nav-second-level word-wrap: break-word"></ul>
@@ -23,22 +23,13 @@
                 <a href="#"><span class="glyphicon glyphicon-wrench"></span> {% trans 'Map Tools' %}<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
 
-                    <li>
-                        <a href="#" >
-                            <input id="radio" type="radio" onchange="alert('atual layer')" />
-                            <label><input id="editable" type="checkbox" onchange="alert('dddd')" /> {% trans 'Editable' %}</label>
-                        </a>
-                    </li>
+
                     <li>
                         <a href="#" data-toggle="modal" data-target="#bookmarkModal">
                             <span class="glyphicon glyphicon-bookmark"></span> {% trans 'Bookmark map' %}
                         </a>
                     </li>
-                    <li>
-                        <a href="#" data-toggle="modal" data-target="#loadLayerModal">
-                            <span class="glyphicon glyphicon-download"></span> {% trans 'Load layer' %}
-                        </a>
-                    </li>
+
                 </ul>
             </li>
         </ul>
