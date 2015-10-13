@@ -8,7 +8,7 @@ osmAdress =  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 opts = {attribution: 'Map data &copy; ' + mapLink, maxZoom: 18 };
 L.tileLayer( osmAdress, opts ).addTo(map);
 var dicUrlLayer = {"url": "", "layer": ""};
-var arrOfDicUrlLayer = [];
+var arrOfObjectIdNameUrlLayer = [];
 var geoJsonLayers = [];
 var actualLayer = null;
 var geojsons = []
@@ -95,9 +95,10 @@ function loadGeoJson(aGeoJson) {
         if (drawControl != null)
            map.removeControl(drawControl);
 
-           drawControl = new L.Control.Draw(options(geoJsonLayer));
-           map.addControl(drawControl);
+        drawControl = new L.Control.Draw(options(geoJsonLayer));
+        map.addControl(drawControl);
 
+        return geoJsonLayer;
 }
 
 
@@ -106,9 +107,7 @@ function onEachFeature(feature, layer) {
     if (layer._layers)
         return onEachFeatureWithMultiGeometry(feature, layer);
 
-    return onEachFeatureWithSingleGeommetry(feature, layer);
-
-
+    return onEachFeatureWithSingleGeometry(feature, layer);
 
 }
 function onEachFeatureWithMultiGeometry(feature, layer){
@@ -124,7 +123,7 @@ function onEachFeatureWithMultiGeometry(feature, layer){
 
 }
 
-function onEachFeatureWithSingleGeommetry(feature, layer)
+function onEachFeatureWithSingleGeometry(feature, layer)
 {
 
     layer.on('click', function() { clickOnLayer(feature, layer); });
@@ -192,21 +191,36 @@ function options(editableLayer) {
 }
 
 
+
+
+// ends - draws function
+
+//begins function  load layer sidebar
 function buttonLoadLayerClicked() {
+    var dic = { name: "", id: "", url: "", layer: null};
 
     url_json = $("#loadLayerRest").val();
 
    $.getJSON( url_json, function(geoJsons) {
+
        aLayer = loadGeoJson(geoJsons);
-       appendLayerListSidebar(url_json);
+
+       aLayerName = layerNameCheckboxSideBar(url_json);
+
+       idLayerName = idLayerNameCheckboxSideBar(aLayerName);
+
+       appendLayerListSidebar(aLayerName, idLayerName);
+
+       dic.id =  idLayerName;
+       dic.name = aLayerName;
+       dic.url = url_json;
+       dic.layer = aLayer;
+       arrOfObjectIdNameUrlLayer.push(dic);
 
 
     }).done(function(data){
 
-       dic =  dicUrlLayer;
-       dic.url = url_json;
-       dic.layer = data;
-       arrOfDicUrlLayer.push(dic);
+
 
     }).fail(function(data){
         console.log("Fail to load geojson");
@@ -214,33 +228,65 @@ function buttonLoadLayerClicked() {
 
 }
 
-function appendLayerListSidebar(url) {
+function getLayersByIdNameCheckboxSideBar(id){
+
+    for (i = 0; i <  arrOfObjectIdNameUrlLayer.length; i++)
+        if (arrOfObjectIdNameUrlLayer[i].id == id )
+            return arrOfObjectIdNameUrlLayer[i].layer;
+
+    return null;
+}
+function layerNameCheckboxSideBar(url) {
+
+    var auxUrl,  index ;
+
+    auxUrl = url.trim();
+
+    if (auxUrl.charAt(auxUrl.length - 1)== "/" )
+
+        auxUrl = auxUrl.substr(0, auxUrl.length - 1);
+
+    index = auxUrl.lastIndexOf("/") + 1;
+
+    return auxUrl.substr(index);
+
+
+}
+function idLayerNameCheckboxSideBar(aLayerName) {
+
     var d = new Date();
+
     var n = d.getTime();
-    var index = url.lastIndexOf("\\") - 1;
-    var a_layer_name = url.substr(index);
-    var id = a_layer_name + n.toString();
+
+    return 'id' + aLayerName + n.toString();
+
+}
+
+function appendLayerListSidebar(aLayerName, aIdLayerName) {
 
     var htmlLi = '<li>' +
     '<a href="#" >' +
-    '<input id="radio_sidebar" name="radio_sidebar" value="" checked="checked"' + 'class="word-wrap: break-word" type="radio" onchange="sideBarRadioChanged()" />' +
-    '<label><input id='+ '"'+ id + '"'  + 'type="checkbox" checked="checked" onchange="sideBarCheckboxChanged()" />' + a_layer_name+  '</label>' +
+    '<input id="radio_sidebar" name="radio_sidebar" value="" checked="checked"' + 'class="word-wrap: break-word" type="radio" onchange="sideBarRadioChanged(this)" />' +
+    '<label><input id='+ '"'+ aIdLayerName + '"'  + 'type="checkbox" checked="checked" onchange="sideBarCheckboxChanged(this)" /> ' + aLayerName+  '</label>' +
     '</a>' +
-    '</li>'    ;
+    '</li>';
 
     $("#layerList").append(htmlLi);
-
-    //document.getElementById(id).checked = true;
-
-
-
-
 }
 
 function sideBarRadioChanged(e) {
+
     alert('radio');
 }
 function sideBarCheckboxChanged(e) {
-    alert('checkboxChanged');
+
+    aLayer = getLayersByIdNameCheckboxSideBar(e.id);
+
+    if (e.checked)
+        map.addLayer(aLayer);
+    else
+        map.removeLayer(aLayer);
+
 }
 
+//end function  load layer sidebar
