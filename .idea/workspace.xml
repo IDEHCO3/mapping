@@ -31,8 +31,8 @@
       <file leaf-file-name="editor.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mappingTool/static/mappingTool/editor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3818" max-vertical-offset="4964">
-              <caret line="350" column="40" selection-start-line="350" selection-start-column="4" selection-end-line="350" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="3511" max-vertical-offset="4624">
+              <caret line="317" column="46" selection-start-line="317" selection-start-column="45" selection-end-line="317" selection-end-column="46" />
               <folding>
                 <element signature="e#26#157#0" expanded="false" />
                 <element signature="n#!!block;n#dicToArray#0" expanded="false" />
@@ -51,6 +51,7 @@
                 <element signature="e#5519#5579#0" expanded="false" />
                 <element signature="e#8372#8439#0" expanded="false" />
                 <element signature="e#8815#9374#0" expanded="false" />
+                <element signature="e#9417#10277#0" expanded="false" />
                 <element signature="e#10319#10711#0" expanded="false" />
                 <element signature="e#10739#10843#0" expanded="false" />
                 <element signature="n#!!block;n#csrfSafeMethod#0" expanded="false" />
@@ -125,9 +126,28 @@
       <file leaf-file-name="mapping.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mappingTool/static/mappingTool/mapping.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9400353" vertical-offset="4414" max-vertical-offset="5049">
-              <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
-              <folding />
+            <state vertical-scroll-proportion="0.42785236" vertical-offset="0" max-vertical-offset="3060">
+              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+              <folding>
+                <element signature="n#!!block;n#initializeContextMenuMap#0" expanded="false" />
+                <element signature="n#!!block;n#showCoordinates#0" expanded="false" />
+                <element signature="n#!!block;n#centerMap#0" expanded="false" />
+                <element signature="n#!!block;n#zoomIn#0" expanded="false" />
+                <element signature="n#!!block;n#zoomOut#0" expanded="false" />
+                <element signature="n#!!block;n#loadGeoJson#0" expanded="false" />
+                <element signature="n#!!block;n#onEachFeature#0" expanded="false" />
+                <element signature="n#!!block;n#onEachFeatureWithMultiGeometry#0" expanded="false" />
+                <element signature="n#!!block;n#onEachFeatureWithSingleGeometry#0" expanded="false" />
+                <element signature="n#!!block;n#binderMenuContextTo#0" expanded="false" />
+                <element signature="n#!!block;n#contextMenuItemsTo#0" expanded="false" />
+                <element signature="n#!!block;n#options#0" expanded="false" />
+                <element signature="n#!!block;n#getLayersByIdNameCheckboxSideBar#0" expanded="false" />
+                <element signature="n#!!block;n#layerNameCheckboxSideBar#0" expanded="false" />
+                <element signature="n#!!block;n#idLayerNameCheckboxSideBar#0" expanded="false" />
+                <element signature="n#!!block;n#appendLayerListSidebar#0" expanded="false" />
+                <element signature="n#!!block;n#sideBarRadioChanged#0" expanded="false" />
+                <element signature="n#!!block;n#sideBarCheckboxChanged#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -666,8 +686,8 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="mapping.settings" />
+        <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="C:\Python32\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -677,7 +697,7 @@
       <module name="mapping" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
-      <option name="host" value="" />
+      <option name="host" value="172.30.10.51" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -710,7 +730,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -719,7 +739,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3304721" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3304721" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2203125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -756,7 +776,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="18" />
+      <option name="time" value="19" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -815,7 +835,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#!!block;n#initializeContextMenuMap#0" expanded="false" />
+            <element signature="n#!!block;n#showCoordinates#0" expanded="false" />
+            <element signature="n#!!block;n#centerMap#0" expanded="false" />
+            <element signature="n#!!block;n#zoomIn#0" expanded="false" />
+            <element signature="n#!!block;n#zoomOut#0" expanded="false" />
+            <element signature="n#!!block;n#loadGeoJson#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeature#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithMultiGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithSingleGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#binderMenuContextTo#0" expanded="false" />
+            <element signature="n#!!block;n#contextMenuItemsTo#0" expanded="false" />
+            <element signature="n#!!block;n#options#0" expanded="false" />
+            <element signature="n#!!block;n#getLayersByIdNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#layerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#idLayerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#appendLayerListSidebar#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarRadioChanged#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarCheckboxChanged#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -849,6 +888,7 @@
             <element signature="e#5519#5579#0" expanded="false" />
             <element signature="e#8372#8439#0" expanded="false" />
             <element signature="e#8815#9374#0" expanded="false" />
+            <element signature="e#9417#10277#0" expanded="false" />
             <element signature="e#10319#10711#0" expanded="false" />
             <element signature="e#10739#10843#0" expanded="false" />
             <element signature="n#!!block;n#csrfSafeMethod#0" expanded="false" />
@@ -921,7 +961,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#!!block;n#initializeContextMenuMap#0" expanded="false" />
+            <element signature="n#!!block;n#showCoordinates#0" expanded="false" />
+            <element signature="n#!!block;n#centerMap#0" expanded="false" />
+            <element signature="n#!!block;n#zoomIn#0" expanded="false" />
+            <element signature="n#!!block;n#zoomOut#0" expanded="false" />
+            <element signature="n#!!block;n#loadGeoJson#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeature#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithMultiGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithSingleGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#binderMenuContextTo#0" expanded="false" />
+            <element signature="n#!!block;n#contextMenuItemsTo#0" expanded="false" />
+            <element signature="n#!!block;n#options#0" expanded="false" />
+            <element signature="n#!!block;n#getLayersByIdNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#layerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#idLayerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#appendLayerListSidebar#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarRadioChanged#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarCheckboxChanged#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -955,6 +1014,7 @@
             <element signature="e#5519#5579#0" expanded="false" />
             <element signature="e#8372#8439#0" expanded="false" />
             <element signature="e#8815#9374#0" expanded="false" />
+            <element signature="e#9417#10277#0" expanded="false" />
             <element signature="e#10319#10711#0" expanded="false" />
             <element signature="e#10739#10843#0" expanded="false" />
             <element signature="n#!!block;n#csrfSafeMethod#0" expanded="false" />
@@ -1027,7 +1087,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="n#!!block;n#initializeContextMenuMap#0" expanded="false" />
+            <element signature="n#!!block;n#showCoordinates#0" expanded="false" />
+            <element signature="n#!!block;n#centerMap#0" expanded="false" />
+            <element signature="n#!!block;n#zoomIn#0" expanded="false" />
+            <element signature="n#!!block;n#zoomOut#0" expanded="false" />
+            <element signature="n#!!block;n#loadGeoJson#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeature#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithMultiGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithSingleGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#binderMenuContextTo#0" expanded="false" />
+            <element signature="n#!!block;n#contextMenuItemsTo#0" expanded="false" />
+            <element signature="n#!!block;n#options#0" expanded="false" />
+            <element signature="n#!!block;n#getLayersByIdNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#layerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#idLayerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#appendLayerListSidebar#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarRadioChanged#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarCheckboxChanged#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1061,6 +1140,7 @@
             <element signature="e#5519#5579#0" expanded="false" />
             <element signature="e#8372#8439#0" expanded="false" />
             <element signature="e#8815#9374#0" expanded="false" />
+            <element signature="e#9417#10277#0" expanded="false" />
             <element signature="e#10319#10711#0" expanded="false" />
             <element signature="e#10739#10843#0" expanded="false" />
             <element signature="n#!!block;n#csrfSafeMethod#0" expanded="false" />
@@ -1183,9 +1263,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="7480" max-vertical-offset="9044">
           <caret line="440" column="7" selection-start-line="440" selection-start-column="2" selection-end-line="440" selection-end-column="7" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1231,8 +1308,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mappingTool/static/mappingTool/editor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3818" max-vertical-offset="4964">
-          <caret line="350" column="40" selection-start-line="350" selection-start-column="4" selection-end-line="350" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="3511" max-vertical-offset="4624">
+          <caret line="317" column="46" selection-start-line="317" selection-start-column="45" selection-end-line="317" selection-end-column="46" />
           <folding>
             <element signature="e#26#157#0" expanded="false" />
             <element signature="n#!!block;n#dicToArray#0" expanded="false" />
@@ -1251,6 +1328,7 @@
             <element signature="e#5519#5579#0" expanded="false" />
             <element signature="e#8372#8439#0" expanded="false" />
             <element signature="e#8815#9374#0" expanded="false" />
+            <element signature="e#9417#10277#0" expanded="false" />
             <element signature="e#10319#10711#0" expanded="false" />
             <element signature="e#10739#10843#0" expanded="false" />
             <element signature="n#!!block;n#csrfSafeMethod#0" expanded="false" />
@@ -1263,9 +1341,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mappingTool/static/mappingTool/mapping.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9400353" vertical-offset="4414" max-vertical-offset="5049">
-          <caret line="291" column="5" selection-start-line="291" selection-start-column="5" selection-end-line="291" selection-end-column="5" />
-          <folding />
+        <state vertical-scroll-proportion="0.42785236" vertical-offset="0" max-vertical-offset="3060">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!block;n#initializeContextMenuMap#0" expanded="false" />
+            <element signature="n#!!block;n#showCoordinates#0" expanded="false" />
+            <element signature="n#!!block;n#centerMap#0" expanded="false" />
+            <element signature="n#!!block;n#zoomIn#0" expanded="false" />
+            <element signature="n#!!block;n#zoomOut#0" expanded="false" />
+            <element signature="n#!!block;n#loadGeoJson#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeature#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithMultiGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#onEachFeatureWithSingleGeometry#0" expanded="false" />
+            <element signature="n#!!block;n#binderMenuContextTo#0" expanded="false" />
+            <element signature="n#!!block;n#contextMenuItemsTo#0" expanded="false" />
+            <element signature="n#!!block;n#options#0" expanded="false" />
+            <element signature="n#!!block;n#getLayersByIdNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#layerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#idLayerNameCheckboxSideBar#0" expanded="false" />
+            <element signature="n#!!block;n#appendLayerListSidebar#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarRadioChanged#0" expanded="false" />
+            <element signature="n#!!block;n#sideBarCheckboxChanged#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

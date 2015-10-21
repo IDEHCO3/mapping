@@ -11,7 +11,9 @@ var dicUrlLayer = {"url": "", "layer": ""};
 var arrOfObjectIdNameUrlLayer = [];
 var geoJsonLayers = [];
 var actualLayer = null;
-var geojsons = []
+var geojsons = [];
+var notInitializedCRUD = true;
+var aux = 10000;
 
 // INICIO DADOS PARA TESTES
 var geojsonFeature = [
@@ -101,7 +103,6 @@ function loadGeoJson(aGeoJson) {
         return geoJsonLayer;
 }
 
-
 function onEachFeature(feature, layer) {
 
     if (layer._layers)
@@ -110,6 +111,7 @@ function onEachFeature(feature, layer) {
     return onEachFeatureWithSingleGeometry(feature, layer);
 
 }
+
 function onEachFeatureWithMultiGeometry(feature, layer){
 
         layer.eachLayer(function (l) {
@@ -190,10 +192,33 @@ function options(editableLayer) {
        };
 }
 
-
-
-
 // ends - draws function
+
+// begin CRUD functions
+function initializeCRUD() {
+
+    map.on('draw:created', function (e) {
+        var type = e.layerType;
+        var layer = e.layer;
+        var a_feature = actualLayer.toGeoJSON();
+        console.log(a_feature);
+        console.log(e);
+        a_feature.id = null;
+        a_feature.properties.properties = empty_properties;
+        layer.feature = a_feature;
+        editableGeojson.addLayer( layer);
+        actuallayer = layer;
+
+        if (type === 'marker') {
+            // Do marker specific actions
+            console.log(type);
+        }
+        // Do whatever else you need to. (save to db, add to map etc)
+        map.addLayer(layer);
+        binderMenuContextTo(layer);
+    });
+}
+// end CRUD functions
 
 //begins function  load layer sidebar
 function buttonLoadLayerClicked() {
@@ -204,6 +229,8 @@ function buttonLoadLayerClicked() {
    $.getJSON( url_json, function(geoJsons) {
 
        aLayer = loadGeoJson(geoJsons);
+
+       actualLayer = aLayer;
 
        aLayerName = layerNameCheckboxSideBar(url_json);
 
@@ -220,12 +247,17 @@ function buttonLoadLayerClicked() {
 
     }).done(function(data){
 
+        if (notInitializedCRUD) {
 
+            notInitializedCRUD = false;
+
+            console.log(actualLayer);
+            initializeCRUD();
+        }
 
     }).fail(function(data){
         console.log("Fail to load geojson");
     });
-
 }
 
 function getLayersByIdNameCheckboxSideBar(id){
@@ -236,6 +268,7 @@ function getLayersByIdNameCheckboxSideBar(id){
 
     return null;
 }
+
 function layerNameCheckboxSideBar(url) {
 
     var auxUrl,  index ;
@@ -252,6 +285,7 @@ function layerNameCheckboxSideBar(url) {
 
 
 }
+
 function idLayerNameCheckboxSideBar(aLayerName) {
 
     var d = new Date();
@@ -278,6 +312,7 @@ function sideBarRadioChanged(e) {
 
     alert('radio');
 }
+
 function sideBarCheckboxChanged(e) {
 
     aLayer = getLayersByIdNameCheckboxSideBar(e.id);
