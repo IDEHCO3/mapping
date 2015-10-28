@@ -11,6 +11,7 @@ var dicUrlLayer = {"url": "", "layer": ""};
 var arrOfObjectIdNameUrlLayer = [];
 var geoJsonLayers = [];
 var actualLayer = null;
+var actualFeature = null;
 var geojsons = [];
 var notInitializedCRUD = true;
 var aux = 10000;
@@ -30,6 +31,7 @@ var geojsonFeature = [
         }
     }
 ];
+
 geojsons.push(geojsonFeature);
 var geojsonFeature1 = [
     {
@@ -116,19 +118,17 @@ function onEachFeatureWithMultiGeometry(feature, layer){
 
         layer.eachLayer(function (l) {
             l.on('click', function() { clickOnLayer(feature, layer); });
-            l.on('contextmenu', function (){clickOnLayer(feature, layer);})
-            l.bindContextMenu({
-                contextmenu: true,
-                contextmenuItems: contextMenuItemsTo()
-            });
+            l.on('contextmenu', function (){clickOnLayer(feature, layer);});
+            binderMenuContextTo(l);
+
         });
 
 }
 
-function onEachFeatureWithSingleGeometry(feature, layer)
-{
+function onEachFeatureWithSingleGeometry(feature, layer) {
 
     layer.on('click', function() { clickOnLayer(feature, layer); });
+    layer.on('contextmenu', function (){clickOnLayer(feature, layer);});
     binderMenuContextTo(layer);
 }
 // called when a layers is load or created
@@ -137,21 +137,32 @@ function binderMenuContextTo(layer) {
     layer.bindContextMenu({
         contextmenu: true,
         contextmenuInheritItems: true,
-        contextmenuItems: contextMenuItemsTo()
+        contextmenuItems: contextMenuItemsTo(layer)
     });
 }
 
-function contextMenuItemsTo(){
+function openPopupOnActualLayer() {
+    var popup = L.popup();
+    var result = '';
+
+    for (property in actualFeature.properties)
+        result += "<p>" + property + ": " + actualFeature.properties[property] + "<\p>";
+
+    popup.setContent(result);
+    actualLayer.bindPopup(popup).openPopup();
+}
+
+function contextMenuItemsTo(layer){
     return [
         {
             separator: true
         },
         {
-            text: 'Marker ',
-            callback: function (e) { alert('Marker: ' + e);      }
+            text: 'View attributes ',
+            callback: function (e) { openPopupOnActualLayer();      }
         }, {
             text: 'Edit attributes',
-            callback: function (e) { editingAttributes(e);  }
+            callback: function () { editingAttributes(layer);  }
         }, {
             separator: true
         }
@@ -161,14 +172,16 @@ function contextMenuItemsTo(){
 // called when a layer is clicked on the map
 function clickOnLayer(feature, layer ){
     actuallayer = layer;
-
+    actualFeature = feature;
+    console.log(feature.properties);
+    console.log(actuallayer);
 }
 
 // called on onEachFeature to associate a context menu to a layer
-
 function editingAttributes(layer){
     //populateModalWithFeature(layer);
     //$('#myModal').modal('show');
+    console.log(layer);
 
 }
 // ends - functions to initialize  load Layer(GeoJson)
