@@ -120,6 +120,7 @@ function onEachFeatureWithMultiGeometry(feature, layer){
             l.on('click', function() { clickOnLayer(feature, layer); });
             l.on('contextmenu', function (){clickOnLayer(feature, layer);});
             binderMenuContextTo(l);
+            openPopupOnActualLayer(feature, layer);
 
         });
 
@@ -130,6 +131,7 @@ function onEachFeatureWithSingleGeometry(feature, layer) {
     layer.on('click', function() { clickOnLayer(feature, layer); });
     layer.on('contextmenu', function (){clickOnLayer(feature, layer);});
     binderMenuContextTo(layer);
+    openPopupOnActualLayer(feature, layer);
 }
 // called when a layers is load or created
 
@@ -141,15 +143,18 @@ function binderMenuContextTo(layer) {
     });
 }
 
-function openPopupOnActualLayer() {
+function openPopupOnActualLayer(feature, layer) {
+
     var popup = L.popup();
     var result = '';
 
-    for (property in actualFeature.properties)
-        result += "<p>" + property + ": " + actualFeature.properties[property] + "<\p>";
+    for (property in feature.properties)
+        result += "<p>" + property + ": " + feature.properties[property] + "<\p>";
 
     popup.setContent(result);
-    actualLayer.bindPopup(popup).openPopup();
+
+    layer.bindPopup(popup);
+
 }
 
 function contextMenuItemsTo(layer){
@@ -175,6 +180,7 @@ function clickOnLayer(feature, layer ){
     actualFeature = feature;
     console.log(feature.properties);
     console.log(actuallayer);
+    actualLayer.openPopup();
 }
 
 // called on onEachFeature to associate a context menu to a layer
