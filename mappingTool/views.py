@@ -10,3 +10,5 @@ class Mapping(TemplateView):
     model = Mapping
     template_name = 'mappingTool/main/index.html'
 
+class Signin(TemplateView):
+    template_name = 'mappingTool/authentication/signin.html'
