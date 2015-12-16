@@ -1,14 +1,12 @@
 /**
  * Created by idehco3 on 14/12/15.
  */
-var app = angular.module('app', [
-   'ngStorage'
-])
+var app = angular.module('app', ['ngStorage'])
    .constant('urls', {
        BASE: 'http://127.0.0.1:8000/authentication',
        BASE_API: 'http://127.0.0.1:8000/v1'
    })
-   .config(function($httpProvider){
+   .config(function($httpProvider,$interpolateProvider){
 
 
     $httpProvider.interceptors.push(['$q', '$location', '$localStorage', function ($q, $location, $localStorage) {
@@ -17,7 +15,7 @@ var app = angular.module('app', [
 
                 config.headers = config.headers || {};
                 if ($localStorage.token) {
-                    config.headers.Authorization = 'Bearer ' + $localStorage.token;
+                    config.headers.Authorization = 'JWT ' + $localStorage.token;
                 }
                 return config;
             },
@@ -29,6 +27,10 @@ var app = angular.module('app', [
             }
         };
     }]);
-})
+
+   $interpolateProvider.startSymbol('{$');
+   $interpolateProvider.endSymbol('$}');
+
+});
 
    

@@ -9,6 +9,10 @@ app.controller('HomeController', ['$rootScope', '$scope', '$location', '$localSt
                window.location = "/";
            }
 
+           function successLoadUser(res){
+               $scope.user = res;
+           }
+
            $scope.signin = function () {
                var formData = {
                    username: $scope.username,
@@ -38,6 +42,7 @@ app.controller('HomeController', ['$rootScope', '$scope', '$location', '$localSt
            };
            $scope.token = $localStorage.token;
            $scope.tokenClaims = Auth.getTokenClaims();
+           console.log("token not:", $scope.tokenClaims);
 }]);
 
 app.controller('RestrictedController', ['$rootScope', '$scope', 'Data', function ($rootScope, $scope, Data) {
