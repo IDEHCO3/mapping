@@ -16,3 +16,6 @@ mapping/static_root/*
 #media
 mapping/media_root/*
 
+#ignore data base
+db.sqlite3
+

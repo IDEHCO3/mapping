@@ -19,10 +19,16 @@
                 </a>
                 <ul id= "layerList" class="nav nav-second-level">
                     <li ng-repeat="layer in layers">
-                        <div class="checkbox">
+                        <div class="checkbox row">
                             <label class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
                                 <input type="checkbox" ng-model="layer.activated_checkbox" ng-change="sideBarCheckboxChanged(layer)"/>
                                 {$ layer.name $}
+                            </label>
+                        </div>
+                        <div>
+                            <label class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                <input type="checkbox" ng-model="layer.activated_radio" ng-change="sideBarRadioChanged(layer)"/>
+                                {% trans 'editing' %}
                             </label>
                         </div>
                     </li>

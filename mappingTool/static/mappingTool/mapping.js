@@ -167,7 +167,7 @@ function contextMenuItemsTo(layer){
             callback: function (e) { openPopupOnActualLayer();      }
         }, {
             text: 'Edit attributes',
-            callback: function () { editingAttributes(layer);  }
+            callback: function (e) { editingAttributes(layer);  }
         }, {
             separator: true
         }
@@ -236,6 +236,9 @@ function initializeCRUD() {
         map.addLayer(layer);
         binderMenuContextTo(layer);
     });
+
+    map.on('draw:edit', function(e){});
+    map.on('draw:delete', function(e){});
 }
 // end CRUD functions
 
