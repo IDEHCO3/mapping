@@ -333,9 +333,8 @@ function sideBarRadioChanged(e) {
 }
 
 function sideBarCheckboxChanged(e) {
-
     aLayer = getLayersByIdNameCheckboxSideBar(e.id);
-
+    console.log("entrada2: ", e);
     if (e.checked)
         map.addLayer(aLayer);
     else

@@ -36,14 +36,16 @@
         <script src="{% static 'leaflet/styledLayerControl/styledLayerControl.js' %}"></script>
 
         <div id="wrapper" ng-controller="HomeController">
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-                {% include 'mappingTool/main/head.html' %}
-                {% include 'mappingTool/main/sidebar.html' %}
-            </nav>
+            <div ng-controller="MappingController as mapCtrl">
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    {% include 'mappingTool/main/head.html' %}
+                    {% include 'mappingTool/main/sidebar.html' %}
+                </nav>
 
-            {% include 'mappingTool/main/body.html' %}
-            {% include 'mappingTool/main/footer.html' %}
-            {% include 'mappingTool/main/map.html' %}
+                {% include 'mappingTool/main/body.html' %}
+                {% include 'mappingTool/main/footer.html' %}
+                {% include 'mappingTool/main/map.html' %}
+            </div>
         </div>
 
         <script src="{% static 'jquery-2.1.4/jquery.min.js' %}"></script>

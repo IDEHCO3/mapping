@@ -58,3 +58,49 @@ app.controller('RestrictedController', ['$rootScope', '$scope', 'Data', function
            });
 }]);
 
+app.controller('MappingController',['$scope', '$http', function($scope, $http){
+
+    $scope.layers = [];
+    $scope.layer_url = "";
+
+    $scope.sideBarCheckboxChanged = function(layer){
+
+        if (layer.activated_checkbox)
+            map.addLayer(layer.data);
+        else
+            map.removeLayer(layer.data);
+    };
+
+    $scope.sideBarRadioChanged = function(layer){
+        console.log("layer:", layer);
+    };
+
+    //begins function  load layer sidebar
+    $scope.buttonLoadLayerClicked = function(){
+
+        $http.get($scope.layer_url)
+            .success(function(data){
+                var layer = { name: "", data: null, url: "", activated_radio: false, activated_checkbox: true};
+
+                var aLayer = loadGeoJson(data);
+                actualLayer = aLayer;
+                var aLayerName = layerNameCheckboxSideBar($scope.layer_url);
+
+                layer.name = aLayerName;
+                layer.url = $scope.layer_url;
+                layer.data = aLayer;
+                $scope.layers.push(layer);
+                $scope.layer_url = "";
+
+                if (notInitializedCRUD) {
+                    notInitializedCRUD = false;
+                    console.log(actualLayer);
+                    initializeCRUD();
+                }
+            })
+            .error(function(){
+                console.log("Error to get layer!");
+            });
+    }
+}]);
+

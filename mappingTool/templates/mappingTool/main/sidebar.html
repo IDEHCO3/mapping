@@ -4,9 +4,9 @@
         <ul class="nav" id="side-menu">
             <li class="sidebar-search">
                 <div class="input-group">
-                    <input id="loadLayerRest" type="text" class="form-control" placeholder="Load layer(url)"/>
+                    <input id="loadLayerRest" type="text" ng-model="layer_url" class="form-control" placeholder="Load layer(url)"/>
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" onclick="buttonLoadLayerClicked()">
+                        <button class="btn btn-default" type="button" ng-click="buttonLoadLayerClicked()">
                             +
                         </button>
                     </span>
@@ -15,14 +15,22 @@
             </li>
             <li>
                 <a href="#">
-                    <span class="glyphicon glyphicon-list-alt"></span> {% trans 'Layers' %}
+                    <span class="glyphicon glyphicon-list-alt"></span> {% trans 'Layers' %}<span class="fa arrow"></span>
                 </a>
+                <ul id= "layerList" class="nav nav-second-level">
+                    <li ng-repeat="layer in layers">
+                        <div class="checkbox">
+                            <label class="col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+                                <input type="checkbox" ng-model="layer.activated_checkbox" ng-change="sideBarCheckboxChanged(layer)"/>
+                                {$ layer.name $}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
             </li>
-            <ul id= "layerList" class="nav nav-second-level word-wrap: break-word"></ul>
             <li>
                 <a href="#"><span class="glyphicon glyphicon-wrench"></span> {% trans 'Map Tools' %}<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-
 
                     <li>
                         <a href="#" data-toggle="modal" data-target="#bookmarkModal">
