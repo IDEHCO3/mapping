@@ -62,29 +62,30 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
 
     $scope.layers = [];
     $scope.layer_url = "";
+    $scope.editingLayer = null;
+    $scope.currentLayer = null;
+
     this.notInitializedCRUD = true;
     var that = this;
 
-    this.allRadiosToFalse = function(){
-        for(var i=0; i< $scope.layers.length; i++){
-            $scope.layers[i].activated_radio = false;
-        }
-    };
-
     this.getEditingLayer = function(){
-        for(var i=0; i<$scope.layers.length; i++){
-            if($scope.layers[i].activated_radio)
-                return $scope.layers[i];
-        }
-
-        return null;
+        return $scope.editingLayer;
     };
 
-    this.convertToPropertiesFromOPTIONS = function(jsonData){
+    this.convertToPropertiesFromOPTIONS = function(schema){
         var properties = {};
 
-        for( var key in jsonData.actions.POST){
-            properties[key] = null;
+        for( var key in schema){
+            if(!schema[key].read_only){
+                switch (schema[key].type){
+                    case 'string':
+                        properties[key] = "empty";
+                    case 'integer':
+                        properties[key] = 0;
+                    default:
+                        properties[key] = null;
+                }
+            }
         }
 
         return properties;
@@ -97,7 +98,10 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
             method: "OPTIONS",
             url: superLayer.url
         }).success(function(data){
-            superLayer.schema = that.convertToPropertiesFromOPTIONS(data);
+            if(data.actions && data.actions.POST){
+                superLayer.schema = data.actions.POST
+                superLayer.emptyProperties = that.convertToPropertiesFromOPTIONS(superLayer.schema);
+            }
 
         }).error(function(){
             console.log("Error to load schema of layer!");
@@ -109,17 +113,18 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
         //var superLayer = null;
         actuallayer = layer;
         var geojson = e.layer.toGeoJSON();
+        if($scope.editingLayer == null) return;
 
-        var editingLayer = that.getEditingLayer();
-        if(editingLayer == null) return;
-
-        geojson.properties = editingLayer.schema;
+        if(Object.keys(geojson.properties).length == 0){
+            geojson.properties = $scope.editingLayer.emptyProperties;
+        }
+        console.log(geojson);
         // Do whatever else you need to. (save to db, add to map etc)
         map.addLayer(layer);
         binderMenuContextTo(layer);
         console.log("trying to create a layer! Sorry! Not implemented!");
-
-        $http.post(editingLayer.url, geojson)
+        return;
+        $http.post($scope.editingLayer.url, geojson)
             .success(function(data){
                 console.log("saved! ", data);
             })
@@ -134,7 +139,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
 
             var geojson = layer.toGeoJSON();
             var editingLayer = that.getEditingLayer();
-            geojson.properties = that.getEmptyProperties(editingLayer);
+            geojson.properties = editingLayer.emptyProperties;
             //do whatever you want, most likely save back to db
             console.log("trying to save the layers edited! Sorry! Not implemented!");
 
@@ -152,7 +157,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
             var geojson = layer.toGeoJSON();
             var editingLayer = that.getEditingLayer();
 
-            if(geojson.properties.id) {
+            if(Object.keys(geojson.properties).length != 0) {
                 var url = editingLayer.url;
                 if (url.slice(-1) == '/') {
                     url += geojson.properties.id;
@@ -180,16 +185,14 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
 
     $scope.sideBarCheckboxChanged = function(layer){
 
-        if (layer.activated_checkbox)
+        if (layer.activated)
             map.addLayer(layer.data);
         else
             map.removeLayer(layer.data);
     };
 
     $scope.sideBarRadioChanged = function(layer){
-        console.log("layer:", layer);
-        that.allRadiosToFalse();
-        layer.activated_radio = true;
+        $scope.editingLayer = layer;
     };
 
     //begins function  load layer sidebar
@@ -197,7 +200,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
 
         $http.get($scope.layer_url)
             .success(function(data){
-                var layer = { name: "", data: null, url: "", activated_radio: false, activated_checkbox: true, schema: null};
+                var layer = { name: "", data: null, url: "", activated: true, schema: null, emptyProperties: null};
 
                 var aLayer = loadGeoJson(data);
                 actualLayer = aLayer;
@@ -209,6 +212,8 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
                 that.getEmptyProperties(layer);
                 $scope.layers.push(layer);
                 $scope.layer_url = "";
+
+                $scope.editingLayer = layer;
 
                 if (that.notInitializedCRUD) {
                     that.notInitializedCRUD = false;
