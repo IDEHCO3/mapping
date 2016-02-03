@@ -108,6 +108,27 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
         });
     };
 
+    this.loadProperties = function(layer){
+        console.log("insert properties in modal form!");
+    };
+
+    this.openEditPanel = function(layer){
+        that.loadProperties(layer);
+        $("#propertiesForm").modal('show');
+    };
+
+    $scope.cancelNewLayer = function(){
+        var geojson = actuallayer.toGeoJSON();
+        if(Object.keys(geojson.properties).length == 0){
+            //map.removeLayer(actualLayer);
+            actualLayer = null;
+        }
+    };
+
+    $scope.saveGeometry = function(){
+        console.log("Save the geometry and your properties!");
+    };
+
     this.created = function(e){
         var layer = e.layer;
         //var superLayer = null;
@@ -115,22 +136,18 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
         var geojson = e.layer.toGeoJSON();
         if($scope.editingLayer == null) return;
 
-        if(Object.keys(geojson.properties).length == 0){
-            geojson.properties = $scope.editingLayer.emptyProperties;
-        }
-        console.log(geojson);
+        //that.openEditPanel(layer);
         // Do whatever else you need to. (save to db, add to map etc)
         map.addLayer(layer);
         binderMenuContextTo(layer);
         console.log("trying to create a layer! Sorry! Not implemented!");
-        return;
-        $http.post($scope.editingLayer.url, geojson)
+        /*$http.post($scope.editingLayer.url, geojson)
             .success(function(data){
                 console.log("saved! ", data);
             })
             .error(function(){
                 console.log("Error to create layer!");
-            });
+            });*/
     };
 
     this.edited = function(e){
