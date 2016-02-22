@@ -3,8 +3,7 @@
  */
 var app = angular.module('app', ['ngStorage'])
    .constant('urls', {
-       BASE: 'http://127.0.0.1:8000/authentication',
-       BASE_API: 'http://127.0.0.1:8000/v1'
+       BASE: '/idehco3/universaluser/authentication'
    })
    .config(function($httpProvider,$interpolateProvider){
 
