@@ -35,7 +35,7 @@
         <script src="{% static 'leaflet/contextmenu/leaflet.contextmenu.js' %}"></script>
         <script src="{% static 'leaflet/styledLayerControl/styledLayerControl.js' %}"></script>
 
-        <div id="wrapper" ng-controller="HomeController">
+        <div id="wrapper" ng-controller="UserController as userCtrl">
             <div ng-controller="MappingController as mapCtrl">
                 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                     {% include 'mappingTool/main/head.html' %}
@@ -63,8 +63,11 @@
         <script src="{% static 'leaflet/contextmenu/leaflet.contextmenu.js' %}"></script>
         <script src="{% static 'angular/angular.js' %}"></script>
         <script src="{% static 'angular/ngStorage.min.js' %} "></script>
+
+        <!-- Personal scripts -->
+        <script src="{% static 'mappingTool/urls.js' %}"></script>
+        <script src="{% static 'mappingTool/auth.js' %}"></script>
         <script src="{% static 'mappingTool/app.js' %} "></script>
-        <script src="{% static 'mappingTool/service.js' %} "></script>
         <script src="{% static 'mappingTool/controllers.js' %} "></script>
 
     </body>
