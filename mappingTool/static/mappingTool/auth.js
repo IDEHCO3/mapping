@@ -33,8 +33,6 @@
         var url_authentication_me = urls.authentication_me+"/";
         $scope.authenticated = false;
 
-        $scope.url_login = urls.authetication +"/?next="+ $window.location.pathname;
-
         if ($window.sessionStorage.token != null) {
             $http.get(url_authentication_me)
                 .success(function (data) {
