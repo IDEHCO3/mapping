@@ -149,7 +149,7 @@ function openPopupOnActualLayer(feature, layer) {
     var result = '';
 
     for (property in feature.properties)
-        result += "<p>" + property + ": " + feature.properties[property] + "<\p>";
+        result += "<p>" + property + ": " + feature.properties[property] + "</p>";
 
     popup.setContent(result);
 
@@ -186,7 +186,7 @@ function clickOnLayer(feature, layer ){
 // called on onEachFeature to associate a context menu to a layer
 function editingAttributes(layer){
     //populateModalWithFeature(layer);
-    //$('#myModal').modal('show');
+    $('#propertiesForm').modal('show');
     console.log(layer);
 
 }

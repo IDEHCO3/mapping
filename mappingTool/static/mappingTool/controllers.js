@@ -1,4 +1,4 @@
-app.controller('MappingController',['$scope', '$http', function($scope, $http){
+/*app.controller('MappingController',['$scope', '$http', function($scope, $http){
 
     $scope.layers = [];
     $scope.layer_url = "";
@@ -39,7 +39,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
             url: superLayer.url
         }).success(function(data){
             if(data.actions && data.actions.POST){
-                superLayer.schema = data.actions.POST
+                superLayer.schema = data.actions.POST;
                 superLayer.emptyProperties = that.convertToPropertiesFromOPTIONS(superLayer.schema);
             }
 
@@ -87,7 +87,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
             })
             .error(function(){
                 console.log("Error to create layer!");
-            });*/
+            });*/ /*
     };
 
     this.edited = function(e){
@@ -129,7 +129,7 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
                  })
                  .error(function(){
                  console.log("Error to delete data!");
-                 });*/
+                 });*/ /*
             }
         });
     };
@@ -182,5 +182,5 @@ app.controller('MappingController',['$scope', '$http', function($scope, $http){
                 console.log("Error to get layer!");
             });
     }
-}]);
+}]);*/
 

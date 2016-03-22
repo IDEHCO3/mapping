@@ -1,9 +1,5 @@
 (function() {
-    var app = angular.module("auth", [])
-        .config(function ($interpolateProvider) {
-            $interpolateProvider.startSymbol('{$');
-            $interpolateProvider.endSymbol('$}');
-        });
+    var app = angular.module("auth", []);
 
     app.factory('authInterceptor', function ($rootScope, $q, $window) {
         return {
