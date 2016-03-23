@@ -6,18 +6,22 @@
             var that = this;
 
             var clickOnLayer = function(feature, layer ){
-                //actuallayer = layer;
-                //actualFeature = feature;
-                console.log(feature.properties);
+                if(feature && 'properties' in feature)
+                    console.log(feature.properties);
                 console.log(layer);
-                //layer.openPopup();
             };
 
-            var openPopupOnActualLayer = function(feature, layer) {
+            this.setPopupOnLayer = function(feature, layer) {
                 var popup = L.popup();
                 var result = '';
-                for (property in feature.properties)
-                    result += "<p>" + property + ": " + feature.properties[property] + "</p>";
+                if(feature != null && 'properties' in feature){
+                    for (property in feature.properties)
+                        result += "<p>" + property + ": " + feature.properties[property] + "</p>";
+                }
+                else{
+                    result = "<p> Empty </p>";
+                }
+
                 popup.setContent(result);
                 layer.bindPopup(popup);
 
@@ -55,7 +59,7 @@
                         l.on('click', function() { clickOnLayer(feature, layer); });
                         l.on('contextmenu', function (){clickOnLayer(feature, layer);});
                         binderMenuContextTo(l);
-                        openPopupOnActualLayer(feature, layer);
+                        that.setPopupOnLayer(feature, layer);
                     });
             };
 
@@ -63,7 +67,7 @@
                 layer.on('click', function() { clickOnLayer(feature, layer); });
                 layer.on('contextmenu', function (){clickOnLayer(feature, layer);});
                 binderMenuContextTo(layer);
-                openPopupOnActualLayer(feature, layer);
+                that.setPopupOnLayer(feature, layer);
             };
 
             this.onEachFeature = function(feature, layer) {

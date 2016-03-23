@@ -7,6 +7,8 @@
         $rootScope.drawControl = null;
         $rootScope.layers = [];
         $scope.layer_url = "";
+        $rootScope.currentLayer = null;
+        $scope.currentLayerIndex = 0;
 
         $rootScope.featureGroup = new L.featureGroup();
         var settings = new settingsMap();
@@ -31,22 +33,30 @@
         var loadGeoJson = function(aGeoJson) {
             var geoJsonLayer = L.geoJson(aGeoJson, {onEachFeature: function(feature,layer){
                 settings.onEachFeature(feature,layer);
-                console.log("test123",feature,layer);
                 $rootScope.featureGroup.addLayer(layer);
             }});
-            //that.map.addLayer(geoJsonLayer);
-            console.log("testandooooo: ", geoJsonLayer);
-            /*if (geoJsonLayer instanceof L.FeatureGroup) {
-                alert('Its a FeatureGroup object');
-            }*/
-            //$rootScope.featureGroup.addLayer(geoJsonLayer);
-            /*if ($rootScope.drawControl != null)
-                initializeDrawControl();*/
 
             return geoJsonLayer;
         };
 
-        $rootScope.buttonLoadLayerClicked = function(){
+        $scope.setCurrentLayer = function(layer){
+            $rootScope.currentLayer = layer;
+        };
+
+        $scope.setVisibilityLayer = function(layer){
+            if(layer.activated){
+                layer.data.eachLayer(function(l){
+                    $rootScope.featureGroup.addLayer(l);
+                });
+            }
+            else{
+                layer.data.eachLayer(function(l){
+                    $rootScope.featureGroup.removeLayer(l);
+                });
+            }
+        };
+
+        $scope.buttonLoadLayerClicked = function(){
 
             $http.get($scope.layer_url)
                 .success(function(data){
@@ -54,11 +64,13 @@
 
                     var aLayer = loadGeoJson(data);
 
-                    layer.name = $rootScope.layer_url;
+                    layer.name = "layer"+$rootScope.layers.length;
                     layer.url = $rootScope.layer_url;
                     layer.data = aLayer;
 
                     $rootScope.layers.push(layer);
+                    $scope.currentLayerIndex = $rootScope.layers.length -1;
+                    $rootScope.currentLayer = layer;
                     $scope.layer_url = "";
                     $rootScope.editingLayer = layer;
 
