@@ -1,7 +1,7 @@
 (function() {
-    var app = angular.module("settingMap",[]);
+    var app = angular.module("settingMap",['formMap']);
 
-    app.factory("settingsMap", [function(){
+    app.factory("settingsMap", ['$rootScope',function($rootScope){
         return function (){
             var that = this;
 
@@ -27,7 +27,9 @@
 
             };
 
-            var editingAttributes = function(layer){};
+            var editingAttributes = function(layer){
+                $rootScope.showForm(layer, $rootScope.currentLayer);
+            };
 
             var contextMenuItemsTo = function(layer){
                 return [

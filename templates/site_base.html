@@ -1,20 +1,87 @@
-<!DOCTYPE html>
+{% load i18n %}
+{% load  staticfiles %}
 <html>
     <head>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="/idehco3/mapping/static/bootstrap-3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/idehco3/mapping/static/bootstrap-3.3.5/css/bootstrap-theme.min.css">
-        <script src="/idehco3/mapping/static/jquery-2.1.4/jquery.min.js"></script>
-        <script src="/idehco3/mapping/static/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <link rel="stylesheet" href="{% static 'bootstrap-3.3.5/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap-3.3.5/css/bootstrap-theme.min.css' %}">
+
+        <!-- MetisMenu CSS -->
+        <link rel="stylesheet" href="{% static 'startbootstrap/bower_components/metisMenu/dist/metisMenu.min.css' %}">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="{% static 'startbootstrap/dist/css/sb-admin-2.css' %}">
+
+        <!-- Custom Fonts -->
+        <link rel="stylesheet" type="text/css" href="{% static 'startbootstrap/bower_components/font-awesome/css/font-awesome.min.css' %}">
+
+        <!-- leaflet CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'leaflet/leaflet.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'leaflet/draw/leaflet.draw.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'leaflet/contextmenu/leaflet.contextmenu.css' %}"/>
+
+        <title>{% trans 'Mapping' %}</title>
 
         {% block head %} {% endblock head %}
         {% block extra_head %} {% endblock extra_head %}
+
     </head>
-    <body>
-        <div class="container">
-            {% block body %} {% endblock body %}
+    <body ng-app="app">
+        <!-- Load leaflet Javascript -->
+        <script src="{% static 'leaflet/leaflet.js' %} "></script>
+        <script src="{% static 'leaflet/draw/leaflet.draw.js' %}"> </script>
+        <script src="{% static 'leaflet/contextmenu/leaflet.contextmenu.js' %}"></script>
+        <script src="{% static 'leaflet/styledLayerControl/styledLayerControl.js' %}"></script>
+
+        <div id="wrapper" ng-controller="UserController as userCtrl">
+            <div ng-controller="createMap">
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    {% include 'head.html' %}
+                    {% block sidebar %} {% endblock sidebar %}
+                </nav>
+
+                {% block body %} {% endblock body %}
+                {% include 'footer.html' %}
+            </div>
         </div>
+
+        <script src="{% static 'jquery-2.1.4/jquery.min.js' %}"></script>
+        <!-- <script src="{% static 'jquery-2.1.4/jquery.jsontotable.min.js' %}"></script>-->
+
+        <!-- Bootstrap JavaScript -->
+         <script src="{% static 'bootstrap-3.3.5/js/bootstrap.min.js' %}"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="{% static 'startbootstrap/bower_components/metisMenu/dist/metisMenu.min.js' %}"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="{% static 'startbootstrap/dist/js/sb-admin-2.js' %}"></script>
+        <!-- leaflet JavaScript -->
+        <script src="{% static 'leaflet/contextmenu/leaflet.contextmenu.js' %}"></script>
+        <script src="{% static 'angular/angular.js' %}"></script>
+        <script src="{% static 'angular/ngStorage.min.js' %} "></script>
+
+        <!-- Personal scripts -->
+        <script>
+            var base = "/idehco3/mapping";
+            var urls = {
+                home : base+"/mapping",
+                authetication : "/idehco3/universaluser/authentication/index",
+                authentication_me : "/idehco3/universaluser/authentication/me"
+            };
+        </script>
+        <script src="{% static 'base/auth.js' %}"></script>
+
         {% block scripts %} {% endblock scripts %}
+
+        <script src="{% static 'base/app.js' %} "></script>
+
         {% block extra_scripts %} {% endblock extra_scripts %}
+
     </body>
 </html>

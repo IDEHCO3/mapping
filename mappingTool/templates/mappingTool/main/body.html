@@ -8,7 +8,7 @@
             </a>
         </div>
     </div>
-    <div class="modal fade" id="propertiesForm" role="dialog">
+    <div class="modal fade" id="propertiesForm" role="dialog" ng-controller="mappingForm">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -16,25 +16,22 @@
                    <h4 class="modal-title">{% trans 'Attributes' %}</h4>
                 </div>
                 <div class="modal-body">
-                    <p ng-repeat="attr in editingLayer.schema">
-                        <label>
-                            {$ attr $}
-                        </label>
-                        <!--div>
-                            <label ng-if="attr.type_field == 'BooleanField'">
-                                <input id="attribute_{$ $index $}" type="checkbox" />
-                                {$ attr.name_field $}
+                    <h1>Testando</h1>
+                    <p ng-repeat="attr in currentLayer.schema">
+                        <div>
+                            <label ng-if="attr.type == 'checkbox'">
+                                <input id="attribute_{$ $index $}" type="checkbox" ng-model="properties[attr.name]"/>
+                                {$ attr.name $}
                             </label>
 
-
-                            <label ng-if="attr.type_field != 'BooleanField'">{$ attr.name_field $}</label>
-                            <input ng-if="attr.type_field != 'BooleanField'" id="attribute_{$ $index $}" type="{$convertTypeField(attr.type_field)$}" class="form-control"/>
-                        </div-->
+                            <label ng-if="attr.type != 'checkbox'">{$ attr.name $}</label>
+                            <input ng-if="attr.type != 'checkbox'" id="attribute_{$ $index $}" type="{$ attr.type $}" ng-model="properties[attr.name]" class="form-control"/>
+                        </div>
                     </p>
                 </div>
                 <div class="modal-footer">
-                   <button type="button" class="btn btn-default" ng-click="cancelNewLayer()" data-dismiss="modal">{% trans 'Cancel' %}</button>
-                   <button type="button" ng-click="saveGeometry()" data-dismiss="modal" class="btn btn-default" >{% trans 'Save' %}</button>
+                   <button type="button" class="btn btn-default" ng-click="cancel()" data-dismiss="modal">{% trans 'Cancel' %}</button>
+                   <button type="button" ng-click="save()" data-dismiss="modal" class="btn btn-default" >{% trans 'Save' %}</button>
                 </div>
             </div>
         </div>

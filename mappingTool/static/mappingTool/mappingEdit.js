@@ -16,6 +16,7 @@
         this.created = function(e){
             console.log("created-----",$rootScope.featureGroup, $rootScope.layers);
             insertLayer(e.layer);
+            $rootScope.showForm(e.layer, $rootScope.currentLayer);
         };
 
         this.edited = function(e){
