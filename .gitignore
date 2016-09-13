@@ -12,6 +12,7 @@
 
 #static
 mapping/static_root/*
+static_root/*
 
 #media
 mapping/media_root/*
