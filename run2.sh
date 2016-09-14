@@ -12,5 +12,5 @@ ln -s /etc/nginx/sites-available/nginx.conf $LINK_FILE
 
 service nginx restart
 
-/usr/bin/uwsgi --ini app-uwsgi.ini --uid root --gid www-data
+/usr/bin/uwsgi --ini mapping.ini --uid root --gid www-data
 
