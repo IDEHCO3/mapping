@@ -20,3 +20,6 @@ mapping/media_root/*
 #ignore data base
 db.sqlite3
 
+#nginx
+nginx/*
+

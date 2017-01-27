@@ -17,6 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^idehco3/mapping/admin/', include(admin.site.urls)),
-    url(r'^idehco3/mapping/', include('mappingTool.urls', namespace='mapping')),
+    #url(r'^mapping/admin/', include(admin.site.urls)),
+    url(r'^mapping/', include('mappingTool.urls', namespace='mapping')),
 ]

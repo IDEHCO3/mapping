@@ -34,7 +34,7 @@ SECRET_KEY = 'a!4=+q%9#(*&x3&2e5zg(j%55azd(4o4(lkgh7mn_ev0@hq&=l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -106,7 +106,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/idehco3/mapping/static/'
+STATIC_URL = '/mapping/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATE_DIRS = (
