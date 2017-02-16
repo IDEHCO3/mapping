@@ -39,6 +39,28 @@
             return geoJsonLayer;
         };
 
+        var getLinkOfContext = function(headers){
+            var links = headers['Link'];
+            var contextLink = null;
+            var context_re = new RegExp('<[^;]*>; *rel="http://www.w3.org/ns/json-ld#context"',"gi");
+            var link_re = new RegExp("<.*>","ig");
+            var link1 = context_re.exec(links);
+            if(link1 != null){
+                contextLink = link_re.exec(link1[0]);
+                if(contextLink != null){
+                    contextLink = contextLink[0].substring(1,contextLink[0].length-1);
+                }
+            }
+            return contextLink;
+        };
+
+        var getContext = function(headers){
+            var contextLink = getLinkOfContext(headers);
+            if(contextLink != null){
+                console.log("link:",contextLink);
+            }
+        };
+
         $scope.setCurrentLayer = function(layer){
             $rootScope.currentLayer = layer;
         };
@@ -59,8 +81,15 @@
         $scope.buttonLoadLayerClicked = function(){
 
             $http.get($scope.layer_url)
-                .success(function(data){
-                    var layer = { name: "", data: null, url: "", activated: true, schema: null, emptyProperties: null};
+                .success(function(data, status, headers){
+                    var layer = {
+                        name: "",
+                        data: null,
+                        url: "",
+                        activated: true,
+                        schema: null,
+                        emptyProperties: null,
+                        context: getContext(headers)};
 
                     var aLayer = loadGeoJson(data);
 
