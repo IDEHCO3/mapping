@@ -102,8 +102,15 @@
 
                     var aLayer = loadGeoJson(data);
 
-                    layer.name = "layer"+$rootScope.layers.length;
-                    layer.url = $rootScope.layer_url;
+                    var pieces = $scope.layer_url.split('/');
+
+                    if(pieces[pieces.length-1] != "") {
+                        layer.name = "layer_" + pieces[pieces.length - 1];
+                    }
+                    else{
+                        layer.name = "layer_" + pieces[pieces.length - 2];
+                    }
+                    layer.url = $scope.layer_url;
                     layer.data = aLayer;
 
                     $rootScope.layers.push(layer);
