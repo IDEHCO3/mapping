@@ -39,10 +39,18 @@
             return geoJsonLayer;
         };
 
-        var getLinkOfContext = function(headers){
+        var regexToGetContext = function(){
+            return new RegExp('<[^;]*>; *rel="http://www.w3.org/ns/json-ld#context"',"gi");
+        };
+
+        var regexToGetEntryPoint = function(){
+            return new RegExp('<[^;]*>; *rel="http://schema.org/EntryPoint"',"gi");
+        };
+
+        var getLinkOfHeader = function(headers, regexOfLink){
             var links = headers('Link');
             var contextLink = null;
-            var context_re = new RegExp('<[^;]*>; *rel="http://www.w3.org/ns/json-ld#context"',"gi");
+            var context_re = regexOfLink;
             var link_re = new RegExp("<.*>","ig");
 
             var link1 = context_re.exec(links);
@@ -56,7 +64,7 @@
         };
 
         var getContext = function(headers, layer){
-            var contextLink = getLinkOfContext(headers);
+            var contextLink = getLinkOfHeader(headers, regexToGetContext());
             if(contextLink != null){
                 $http.get(contextLink)
                     .success(function(data){
@@ -69,56 +77,98 @@
             }
         };
 
+        var isAEntryPoint = function(headers){
+            return getLinkOfHeader(headers, regexToGetEntryPoint()) != null;
+        };
+
         $scope.setCurrentLayer = function(layer){
             $rootScope.currentLayer = layer;
         };
 
-        $scope.setVisibilityLayer = function(layer){
-            if(layer.activated){
-                layer.data.eachLayer(function(l){
-                    $rootScope.featureGroup.addLayer(l);
-                });
+        $scope.setVisibilityLayer = function(layer, index){
+            if(layer.data == null){
+                $http.get(layer.url)
+                    .success(function(data, status, headers){
+                        getContext(headers, layer);
+                        var aLayer = loadGeoJson(data);
+                        layer.data = aLayer;
+                        layer.data.eachLayer(function(l){
+                            $rootScope.featureGroup.addLayer(l);
+                        });
+
+                        $scope.currentLayerIndex = index;
+                        $rootScope.currentLayer = layer;
+                    })
+                    .error(function(data){
+                        console.log("Error to get layer!");
+                    });
             }
             else{
-                layer.data.eachLayer(function(l){
-                    $rootScope.featureGroup.removeLayer(l);
-                });
+                if(layer.activated){
+                    $scope.currentLayerIndex = index;
+                    $rootScope.currentLayer = layer;
+
+                    layer.data.eachLayer(function(l){
+                        $rootScope.featureGroup.addLayer(l);
+                    });
+                }
+                else{
+                    layer.data.eachLayer(function(l){
+                        $rootScope.featureGroup.removeLayer(l);
+                    });
+                }
             }
         };
 
         $scope.buttonLoadLayerClicked = function(){
             $http.get($scope.layer_url)
                 .success(function(data, status, headers){
-                    var layer = {
-                        name: "",
-                        data: null,
-                        url: "",
-                        activated: true,
-                        schema: null,
-                        emptyProperties: null,
-                        context: null};
+                    if(isAEntryPoint(headers)){
+                        for(var key in data){
+                            var layer = {
+                                name: key,
+                                data: null,
+                                url: data[key],
+                                activated: false,
+                                schema: null,
+                                emptyProperties: null,
+                                context: null};
 
-                    getContext(headers, layer);
-
-                    var aLayer = loadGeoJson(data);
-
-                    var pieces = $scope.layer_url.split('/');
-
-                    if(pieces[pieces.length-1] != "") {
-                        layer.name = "layer_" + pieces[pieces.length - 1];
+                            $rootScope.layers.push(layer);
+                            $scope.layer_url = "";
+                        }
                     }
                     else{
-                        layer.name = "layer_" + pieces[pieces.length - 2];
+                        var layer = {
+                            name: "",
+                            data: null,
+                            url: "",
+                            activated: true,
+                            schema: null,
+                            emptyProperties: null,
+                            context: null};
+
+                        getContext(headers, layer);
+
+                        var aLayer = loadGeoJson(data);
+
+                        var pieces = $scope.layer_url.split('/');
+                        if(pieces[pieces.length-1] != "") {
+                            layer.name = "layer_" + pieces[pieces.length - 1];
+                        }
+                        else{
+                            layer.name = "layer_" + pieces[pieces.length - 2];
+                        }
+
+                        layer.url = $scope.layer_url;
+                        layer.data = aLayer;
+
+                        $rootScope.layers.push(layer);
+                        $scope.currentLayerIndex = $rootScope.layers.length -1;
+                        $rootScope.currentLayer = layer;
+                        $scope.layer_url = "";
+                        $rootScope.editingLayer = layer;
                     }
-                    layer.url = $scope.layer_url;
-                    layer.data = aLayer;
-
-                    $rootScope.layers.push(layer);
-                    $scope.currentLayerIndex = $rootScope.layers.length -1;
-                    $rootScope.currentLayer = layer;
-                    $scope.layer_url = "";
-                    $rootScope.editingLayer = layer;
-
                     if ($rootScope.drawControl == null) {
                         initializeDrawControl();
                     }
